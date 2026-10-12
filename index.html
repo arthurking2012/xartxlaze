@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ფარსმან ხარხალი — ლიტერატურისა და მწერლობის განვითარება</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Noto+Serif+Georgian:wght@400;600;700;800&family=Noto+Sans+Georgian:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f1117;
+            --card-bg: #181c27;
+            --accent-gold: #c5a059;
+            --accent-gold-light: #e6ca85;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a3a8b8;
+            --border-color: rgba(197, 160, 89, 0.25);
+            --border-hover: rgba(197, 160, 89, 0.6);
+            --quote-bg: rgba(197, 160, 89, 0.08);
+            --note-bg: rgba(230, 100, 100, 0.08);
+            --note-border: rgba(230, 100, 100, 0.35);
+        }
+
+        [data-theme="parchment"] {
+            --bg-color: #f7f3e8;
+            --card-bg: #fffdf7;
+            --accent-gold: #8b6b23;
+            --accent-gold-light: #6a4f15;
+            --text-primary: #2d261e;
+            --text-secondary: #5f574d;
+            --border-color: rgba(139, 107, 35, 0.25);
+            --border-hover: rgba(139, 107, 35, 0.6);
+            --quote-bg: rgba(139, 107, 35, 0.07);
+            --note-bg: rgba(180, 50, 50, 0.06);
+            --note-border: rgba(180, 50, 50, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            font-family: 'Noto Serif Georgian', serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.85;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: 
+                radial-gradient(ellipse at 50% 0%, rgba(197, 160, 89, 0.12) 0%, transparent 60%),
+                radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.02) 0%, transparent 40%);
+        }
+
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem;
+            width: 100%;
+        }
+
+        /* Top control bar */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            font-family: 'Noto Sans Georgian', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .badge-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: var(--quote-bg);
+            color: var(--accent-gold);
+            border: 1px solid var(--border-color);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 7px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Noto Sans Georgian', sans-serif;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-1px);
+        }
+
+        /* Header / Banner */
+        header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+            position: relative;
+        }
+
+        .header-decor {
+            width: 70px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+            margin: 1.2rem auto;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 2.75rem);
+            font-weight: 800;
+            color: var(--accent-gold-light);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+            line-height: 1.3;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-family: 'Noto Sans Georgian', sans-serif;
+            font-size: 1.1rem;
+            margin-top: 0.8rem;
+        }
+
+        /* Reading card */
+        .chronicle-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2.75rem 2.5rem;
+            box-shadow: 0 16px 36px rgba(0,0,0,0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chronicle-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+        }
+
+        p {
+            margin-bottom: 1.65rem;
+            font-size: 1.15rem;
+            text-align: justify;
+            text-justify: inter-word;
+            color: var(--text-primary);
+        }
+
+        /* First letter drop-cap */
+        p.lead::first-letter {
+            font-size: 3.5rem;
+            float: left;
+            line-height: 0.9;
+            margin-right: 0.85rem;
+            margin-top: 0.15rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+            font-family: 'Cinzel', 'Noto Serif Georgian', serif;
+        }
+
+        /* Highlighted excerpt */
+        .poem-quote {
+            background: var(--quote-bg);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.2rem 1.6rem;
+            margin: 2rem 0;
+            border-radius: 0 10px 10px 0;
+            font-style: italic;
+        }
+
+        .poem-quote .title {
+            font-weight: 700;
+            font-style: normal;
+            color: var(--accent-gold-light);
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Important note */
+        .note-box {
+            background: var(--note-bg);
+            border: 1px dashed var(--note-border);
+            border-radius: 12px;
+            padding: 1.3rem 1.5rem;
+            margin-top: 2.5rem;
+            font-size: 0.98rem;
+            color: var(--text-secondary);
+            font-family: 'Noto Sans Georgian', sans-serif;
+        }
+
+        .note-box strong {
+            color: #e07a7a;
+            display: block;
+            margin-bottom: 0.4rem;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 2.5rem 1rem;
+            font-family: 'Noto Sans Georgian', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--accent-gold);
+            color: #1a1a1a;
+            font-weight: 600;
+            padding: 0.75rem 1.4rem;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            font-family: 'Noto Sans Georgian', sans-serif;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 1.5rem 1rem;
+            }
+            .chronicle-card {
+                padding: 1.75rem 1.25rem;
+            }
+            p {
+                font-size: 1.05rem;
+                text-align: left;
+            }
+            .controls {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Controls bar -->
+        <div class="controls">
+            <span class="badge-tag">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                ისტორიული ქრონიკა
+            </span>
+            <div class="btn-group">
+                <button class="btn" id="themeToggle" title="თემის შეცვლა">
+                    🎨 სტილი: <span id="themeLabel">მუქი</span>
+                </button>
+                <button class="btn" id="copyBtn" title="ტექსტის კოპირება">
+                    📋 კოპირება
+                </button>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <header>
+            <h1>ფარსმან ხარხალი</h1>
+            <div class="header-decor"></div>
+            <p class="subtitle">ლიტერატურისა და მწერლობის განვითარება</p>
+        </header>
+
+        <!-- Main text article -->
+        <article class="chronicle-card" id="textContent">
+            <p class="lead">
+                ფარსმან ხარხალი მხოლოდ სამხედრო ლაშქრობებით არ იყო დაინტერესებული. მისი აზრით, მეფე, რომელიც მხოლოდ მიწებს იპყრობდა და ხალხის ცოდნაზე არ ზრუნავდა, მომავალ თაობებს დიდხანს არ დაამახსოვრდებოდა. ამიტომ მან სამეფო კარზე მწერალთა და სწავლულთა ჯგუფი შექმნა.
+            </p>
+
+            <p>
+                ფარსმანის ბრძანებით, სამეფო მწერლებს უნდა ჩაეწერათ ძველი ხალხების ლეგენდები, ომების ამბები, მეფეთა ცხოვრება და სხვადასხვა ქვეყნის წეს-ჩვეულებები. სწორედ ამ პერიოდში დაიწყო სამეფო ბიბლიოთეკის შექმნა, სადაც ხელნაწერებს ინახავდნენ.
+            </p>
+
+            <p>
+                მეფემ განსაკუთრებული ყურადღება დაუთმო ლიტერატურას. მან მწერლებს დაავალა, შეექმნათ ეპიკური ნაწარმოებები, რომლებშიც აღწერილი იქნებოდა გმირების ბრძოლები, მეგობრობა, ღალატი და სახელმწიფოს დაარსება. ამ ნაწარმოებებს ხშირად სამეფო კარზე ხმამაღლა კითხულობდნენ.
+            </p>
+
+            <div class="poem-quote">
+                <div class="title">
+                    📜 „ასი სამეფოს ამბავი“
+                </div>
+                გადმოცემის თანახმად, ფარსმანმა თავადაც სცადა პოემის დაწერა, რომელსაც „ასი სამეფოს ამბავი“ უწოდა. თუმცა მისი პირველი ნაწარმოების წაკითხვის შემდეგ სამეფო მემატიანემ ფრთხილად შენიშნა, რომ მეფეს სამხედრო საქმეები ლიტერატურაზე უკეთ გამოსდიოდა. ფარსმანმა ნაწარმოები გვერდზე გადადო და ბრძანა, მემატიანეს მისი სიტყვები აუცილებლად ჩაეწერა — ოღონდ ის ნაწილი არა, სადაც საკუთარ პოემაზე კრიტიკას ისმენდა.
+            </div>
+
+            <p>
+                მეფემ ასევე დააწესა წესი, რომლის მიხედვითაც სამეფო ისტორიკოსებს გამარჯვებებთან ერთად დამარცხებებიც უნდა აღეწერათ. მისი აზრით, მომავალ მმართველებს მხოლოდ წარმატებების ცოდნა არ ეყოფოდათ.
+            </p>
+
+            <p>
+                ფარსმანის მმართველობის დროს ლიტერატურა ანახად, კანონების გასავრცელებლად და მომავალი თაობებისთვის წარსულის გადასაცემად გამოიყენებოდა.
+            </p>
+
+            <div class="note-box">
+                <strong>📌 შენიშვნა:</strong>
+                ეს მონაკვეთი იმავე გამოგონილი ქრონიკის ნაწილია; სამეფო ბიბლიოთეკა, პოემა „ასი სამეფოს ამბავი“ და ფარსმანის ლიტერატურული საქმიანობა მოთხრობისთვისაა შექმნილი.
+            </div>
+        </article>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">ტექსტი დაკოპირდა!</div>
+
+    <footer>
+        <p>© ფარსმან ხარხალის მატიანე — გამოგონილი ქრონიკა</p>
+    </footer>
+
+    <script>
+        // Theme toggle (Dark / Parchment)
+        const themeToggle = document.getElementById('themeToggle');
+        const themeLabel = document.getElementById('themeLabel');
+        let isParchment = false;
+
+        themeToggle.addEventListener('click', () => {
+            isParchment = !isParchment;
+            if (isParchment) {
+                document.documentElement.setAttribute('data-theme', 'parchment');
+                themeLabel.textContent = 'პერგამენტი';
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                themeLabel.textContent = 'მუქი';
+            }
+        });
+
+        // Copy text
+        const copyBtn = document.getElementById('copyBtn');
+        const toast = document.getElementById('toast');
+
+        const fullText = `ფარსმან ხარხალი — ლიტერატურისა და მწერლობის განვითარება
+
+ფარსმან ხარხალი მხოლოდ სამხედრო ლაშქრობებით არ იყო დაინტერესებული. მისი აზრით, მეფე, რომელიც მხოლოდ მიწებს იპყრობდა და ხალხის ცოდნაზე არ ზრუნავდა, მომავალ თაობებს დიდხანს არ დაამახსოვრდებოდა. ამიტომ მან სამეფო კარზე მწერალთა და სწავლულთა ჯგუფი შექმნა.
+ფარსმანის ბრძანებით, სამეფო მწერლებს უნდა ჩაეწერათ ძველი ხალხების ლეგენდები, ომების ამბები, მეფეთა ცხოვრება და სხვადასხვა ქვეყნის წეს-ჩვეულებები. სწორედ ამ პერიოდში დაიწყო სამეფო ბიბლიოთეკის შექმნა, სადაც ხელნაწერებს ინახავდნენ.
+მეფემ განსაკუთრებული ყურადღება დაუთმო ლიტერატურას. მან მწერლებს დაავალა, შეექმნათ ეპიკური ნაწარმოებები, რომლებშიც აღწერილი იქნებოდა გმირების ბრძოლები, მეგობრობა, ღალატი და სახელმწიფოს დაარსება. ამ ნაწარმოებებს ხშირად სამეფო კარზე ხმამაღლა კითხულობდნენ.
+გადმოცემის თანახმად, ფარსმანმა თავადაც სცადა პოემის დაწერა, რომელსაც „ასი სამეფოს ამბავი“ უწოდა. თუმცა მისი პირველი ნაწარმოების წაკითხვის შემდეგ სამეფო მემატიანემ ფრთხილად შენიშნა, რომ მეფეს სამხედრო საქმეები ლიტერატურაზე უკეთ გამოსდიოდა. ფარსმანმა ნაწარმოები გვერდზე გადადო და ბრძანა, მემატიანეს მისი სიტყვები აუცილებლად ჩაეწერა — ოღონდ ის ნაწილი არა, სადაც საკუთარ პოემაზე კრიტიკას ისმენდა.
+მეფემ ასევე დააწესა წესი, რომლის მიხედვითაც სამეფო ისტორიკოსებს გამარჯვებებთან ერთად დამარცხებებიც უნდა აღეწერათ. მისი აზრით, მომავალ მმართველებს მხოლოდ წარმატებების ცოდნა არ ეყოფოდათ.
+ფარსმანის მმართველობის დროს ლიტერატურა ანახად, კანონების გასავრცელებლად და მომავალი თაობებისთვის წარსულის გადასაცემად გამოიყენებოდა.
+შენიშვნა: ეს მონაკვეთი იმავე გამოგონილი ქრონიკის ნაწილია; სამეფო ბიბლიოთეკა, პოემა „ასი სამეფოს ამბავი“ და ფარსმანის ლიტერატურული საქმიანობა მოთხრობისთვისაა შექმნილი.`;
+
+        copyBtn.addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(fullText);
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2200);
+            } catch (err) {
+                console.error('Copy failed', err);
+            }
+        });
+    </script>
+</body>
+</html>
